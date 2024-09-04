@@ -15,8 +15,5 @@ COPY . /app/
 # Expose port
 EXPOSE 8000
 
-# Use a non-root user to run the application
-USER nobody
-
 # Command to run the application
 CMD ["gunicorn", "healthapi.wsgi:application", "--bind", "0.0.0.0:8000"]

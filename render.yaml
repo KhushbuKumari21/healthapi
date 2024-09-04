@@ -4,3 +4,5 @@ services:
     env: python
     buildCommand: "pip install -r requirements.txt"
     startCommand: "gunicorn healthapi.wsgi:application --bind 0.0.0.0:8000"
+    # Optional settings
+    # You can specify environment variables, disk, memory limits, etc.
