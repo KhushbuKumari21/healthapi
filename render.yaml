@@ -1,8 +1,6 @@
-
 services:
   - type: web
     name: healthapi
     env: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn healthapi.wsgi:application"
-    dockerfilePath: ./Dockerfile  # Remove this line if not using Docker
+    startCommand: "gunicorn healthapi.wsgi:application --bind 0.0.0.0:8000"
