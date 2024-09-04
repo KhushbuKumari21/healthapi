@@ -7,7 +7,8 @@ SECRET_KEY = 'django-insecure-*&%i0nbh^d3g&$ld=%tc6u-bb=((djd33l*=7eqrk3$_no2dru
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'healthapi-2dzh.onrender.com',
+   
+    'healthapiorg.onrender.com',
     'localhost',
     '127.0.0.1',
 ]
