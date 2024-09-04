@@ -1,7 +1,6 @@
-Django==4.0.1
+Django==5.1.1
 gunicorn==20.1.0
 djangorestframework==3.14.0
 psycopg2-binary==2.9.5
 python-dotenv==0.21.0
-oauth2_provider
-
+django-oauth-toolkit==2.4.0
