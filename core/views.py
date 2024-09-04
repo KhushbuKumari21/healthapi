@@ -1,18 +1,21 @@
-from django.shortcuts import render
-from rest_framework import generics, permissions, status
+from django.http import HttpResponse
+from rest_framework import status, generics, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Department, Patient, Doctor, PatientRecord
-from .serializers import DepartmentSerializer, PatientSerializer, DoctorSerializer, PatientRecordSerializer, UserSerializer
-from .permissions import IsDoctor, IsPatient
+from core.models import Department, Patient, Doctor, PatientRecord
+from core.serializers import DepartmentSerializer, PatientSerializer, DoctorSerializer, PatientRecordSerializer, UserSerializer
+from core.permissions import IsDoctor, IsPatient
 
-# View to render the Home page
-def home(request):
-    return render(request, 'home.html')
+# Custom Permissions
+class IsDoctor(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_staff:
+            return True
+        return obj.user == request.user
 
-# View to render the About page
-def about(request):
-    return render(request, 'about.html')
+class IsPatient(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user
 
 # API Views
 class DepartmentListCreateView(generics.ListCreateAPIView):
@@ -69,7 +72,7 @@ class PatientRecordDetailView(generics.RetrieveUpdateDestroyAPIView):
             return PatientRecord.objects.filter(patient=patient)
         return PatientRecord.objects.none()
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 def department_doctors(request, pk):
     try:
         department = Department.objects.get(pk=pk)
@@ -81,7 +84,10 @@ def department_doctors(request, pk):
         serializer = DoctorSerializer(doctors, many=True)
         return Response(serializer.data)
 
-@api_view(['GET'])
+    elif request.method == 'PUT':
+        return Response({'detail': 'Update operation not implemented'}, status=status.HTTP_501_NOT_IMPLEMENTED)
+
+@api_view(['GET', 'PUT'])
 def department_patients(request, pk):
     try:
         department = Department.objects.get(pk=pk)
@@ -93,6 +99,9 @@ def department_patients(request, pk):
         serializer = PatientSerializer(patients, many=True)
         return Response(serializer.data)
 
+    elif request.method == 'PUT':
+        return Response({'detail': 'Update operation not implemented'}, status=status.HTTP_501_NOT_IMPLEMENTED)
+
 @api_view(['POST'])
 def register(request):
     if request.method == 'POST':
@@ -103,3 +112,6 @@ def register(request):
             user.save()
             return Response({'detail': 'User created successfully'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def homepage(request):
+    return HttpResponse("Welcome to the Health API!")
