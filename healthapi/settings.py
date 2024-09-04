@@ -2,7 +2,7 @@ from pathlib import Path
 import os
 
 # Base directory of the project
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path('D:\healthapi\db.sqlite3').resolve().parent.parent
 
 # Security key for production (should be set in environment variables)
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-*&%i0nbh^d3g&$ld=%tc6u-bb=((djd33l*=7eqrk3$_no2dru')
