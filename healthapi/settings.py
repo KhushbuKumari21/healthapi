@@ -101,8 +101,12 @@ USE_TZ = True
 
 # Static files configuration
 STATIC_URL = '/static/'
+
+# Define multiple static files directories
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'healthapi/static'),  # Adjust this line to point to the static directory
+    os.path.join(BASE_DIR, 'healthapi/static'),
+    os.path.join(BASE_DIR, 'healthapi/staticfiles/admin/css'),
+    os.path.join(BASE_DIR, 'healthapi/staticfiles/rest_framework/css'),
 ]
 
 # Media files
