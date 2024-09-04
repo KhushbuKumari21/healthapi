@@ -1,19 +1,21 @@
-from rest_framework import generics, permissions
+# core/views.py
+from django.shortcuts import render
+from rest_framework import generics, permissions, status
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Department, Patient, Doctor, PatientRecord
-from .serializers import DepartmentSerializer, PatientSerializer, DoctorSerializer, PatientRecordSerializer
+from .serializers import DepartmentSerializer, PatientSerializer, DoctorSerializer, PatientRecordSerializer, UserSerializer
+from .permissions import IsDoctor, IsPatient
 
-# Custom Permissions
-class IsDoctor(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        if request.user.is_staff:
-            return True
-        return obj.user == request.user
+# View to render the Home page
+def home(request):
+    return render(request, 'home.html')
 
-class IsPatient(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        return obj.user == request.user
+# View to render the About page
+def about(request):
+    return render(request, 'about.html')
 
+# API Views
 class DepartmentListCreateView(generics.ListCreateAPIView):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
@@ -49,22 +51,62 @@ class PatientRecordListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_staff:
-            return PatientRecord.objects.all()
-        patient = Patient.objects.filter(user=user).first()
+        if user.is_staff:  # For doctors
+            return PatientRecord.objects.filter(doctor__user=user)
+        patient = Patient.objects.filter(user=user).first()  # For patients
         if patient:
-            return PatientRecord.objects.filter(department=patient.department)
+            return PatientRecord.objects.filter(patient=patient)
         return PatientRecord.objects.none()
 
 class PatientRecordDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = PatientRecord.objects.all()
     serializer_class = PatientRecordSerializer
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_staff:
-            return PatientRecord.objects.all()
-        patient = Patient.objects.filter(user=user).first()
+        if user.is_staff:  # For doctors
+            return PatientRecord.objects.filter(doctor__user=user)
+        patient = Patient.objects.filter(user=user).first()  # For patients
         if patient:
             return PatientRecord.objects.filter(patient=patient)
         return PatientRecord.objects.none()
+
+@api_view(['GET', 'PUT'])
+def department_doctors(request, pk):
+    try:
+        department = Department.objects.get(pk=pk)
+    except Department.DoesNotExist:
+        return Response({'detail': 'Department not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        doctors = Doctor.objects.filter(department=department)
+        serializer = DoctorSerializer(doctors, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        return Response({'detail': 'Update operation not implemented'}, status=status.HTTP_501_NOT_IMPLEMENTED)
+
+@api_view(['GET', 'PUT'])
+def department_patients(request, pk):
+    try:
+        department = Department.objects.get(pk=pk)
+    except Department.DoesNotExist:
+        return Response({'detail': 'Department not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        patients = Patient.objects.filter(department=department)
+        serializer = PatientSerializer(patients, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        return Response({'detail': 'Update operation not implemented'}, status=status.HTTP_501_NOT_IMPLEMENTED)
+
+@api_view(['POST'])
+def register(request):
+    if request.method == 'POST':
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            user.set_password(request.data['password'])
+            user.save()
+            return Response({'detail': 'User created successfully'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

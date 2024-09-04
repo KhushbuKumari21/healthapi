@@ -1,27 +1,18 @@
 from django.urls import path
-from .views import (
-    DepartmentListCreateView, DepartmentDetailView,
-    DoctorListCreateView, DoctorDetailView,
-    PatientListCreateView, PatientDetailView,
-    PatientRecordListCreateView, PatientRecordDetailView
-)
+from . import views
 
 urlpatterns = [
-    path('departments/', DepartmentListCreateView.as_view(), name='department-list-create'),
-    path('departments/<int:pk>/', DepartmentDetailView.as_view(), name='department-detail'),
-    path('doctors/', DoctorListCreateView.as_view(), name='doctor-list-create'),
-    path('doctors/<int:pk>/', DoctorDetailView.as_view(), name='doctor-detail'),
-    path('patients/', PatientListCreateView.as_view(), name='patient-list-create'),
-    path('patients/<int:pk>/', PatientDetailView.as_view(), name='patient-detail'),
-    path('patient_records/', PatientRecordListCreateView.as_view(), name='patientrecord-list-create'),
-    path('patient_records/<int:pk>/', PatientRecordDetailView.as_view(), name='patientrecord-detail'),
-]
-
-# Include these URLs in your main project URLs (healthapi/urls.py)
-from django.contrib import admin
-from django.urls import include, path
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('core.urls')),
+    path('', views.home, name='home'),
+    path('about/', views.about, name='about'),
+    path('departments/', views.DepartmentListCreateView.as_view(), name='department-list-create'),
+    path('departments/<int:pk>/', views.DepartmentDetailView.as_view(), name='department-detail'),
+    path('doctors/', views.DoctorListCreateView.as_view(), name='doctor-list-create'),
+    path('doctors/<int:pk>/', views.DoctorDetailView.as_view(), name='doctor-detail'),
+    path('patients/', views.PatientListCreateView.as_view(), name='patient-list-create'),
+    path('patients/<int:pk>/', views.PatientDetailView.as_view(), name='patient-detail'),
+    path('patient-records/', views.PatientRecordListCreateView.as_view(), name='patient-record-list-create'),
+    path('patient-records/<int:pk>/', views.PatientRecordDetailView.as_view(), name='patient-record-detail'),
+    path('department/<int:pk>/doctors/', views.department_doctors, name='department-doctors'),
+    path('department/<int:pk>/patients/', views.department_patients, name='department-patients'),
+    path('register/', views.register, name='register'),
 ]
