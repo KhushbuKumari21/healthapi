@@ -12,7 +12,7 @@ DEBUG = bool(int(os.environ.get('DJANGO_DEBUG', 1)))
 
 # Allowed hosts
 ALLOWED_HOSTS = [
-    'healthapiorg.onrender.com',
+    'healthapiorginal.onrender.com',
     'localhost',
     '127.0.0.1',
 ]
