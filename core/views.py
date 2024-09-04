@@ -1,11 +1,12 @@
-# core/views.py
-from django.shortcuts import render
-from rest_framework import generics, permissions, status
+from django.http import HttpResponse
+from rest_framework import status, generics, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Department, Patient, Doctor, PatientRecord
-from .serializers import DepartmentSerializer, PatientSerializer, DoctorSerializer, PatientRecordSerializer, UserSerializer
-from .permissions import IsDoctor, IsPatient
+from core.models import Department, Patient, Doctor, PatientRecord
+from core.serializers import DepartmentSerializer, PatientSerializer, DoctorSerializer, PatientRecordSerializer, UserSerializer
+from core.permissions import IsDoctor, IsPatient
+from django.shortcuts import render
+
 
 # View to render the Home page
 def home(request):
@@ -70,7 +71,7 @@ class PatientRecordDetailView(generics.RetrieveUpdateDestroyAPIView):
             return PatientRecord.objects.filter(patient=patient)
         return PatientRecord.objects.none()
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET'])
 def department_doctors(request, pk):
     try:
         department = Department.objects.get(pk=pk)
@@ -82,10 +83,7 @@ def department_doctors(request, pk):
         serializer = DoctorSerializer(doctors, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'PUT':
-        return Response({'detail': 'Update operation not implemented'}, status=status.HTTP_501_NOT_IMPLEMENTED)
-
-@api_view(['GET', 'PUT'])
+@api_view(['GET'])
 def department_patients(request, pk):
     try:
         department = Department.objects.get(pk=pk)
@@ -96,9 +94,6 @@ def department_patients(request, pk):
         patients = Patient.objects.filter(department=department)
         serializer = PatientSerializer(patients, many=True)
         return Response(serializer.data)
-
-    elif request.method == 'PUT':
-        return Response({'detail': 'Update operation not implemented'}, status=status.HTTP_501_NOT_IMPLEMENTED)
 
 @api_view(['POST'])
 def register(request):
