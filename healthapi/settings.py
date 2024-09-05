@@ -12,7 +12,6 @@ DEBUG = bool(int(os.environ.get('DJANGO_DEBUG', 0)))
 
 # Allowed hosts
 ALLOWED_HOSTS = [
-    
     'healthapiorg.onrender.com',
     'healthapiorginal.onrender.com',
     'localhost',
@@ -50,7 +49,7 @@ ROOT_URLCONF = 'healthapi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'core/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'core', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,21 +103,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 
-# Adding directories for static files within 'core/static' and other apps if necessary
+# Specify the directory where Django will look for static files
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'core/static'),  # Core static directory (for core app)
+    os.path.join(BASE_DIR, 'core', 'static'),
 ]
+
+# Directory where static files are collected for deployment
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# Static files configuration
-STATIC_URL = '/static/'
-
-# Define multiple static files directories
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'healthapi/static'),
-    os.path.join(BASE_DIR, 'healthapi/staticfiles/admin/css'),
-    os.path.join(BASE_DIR, 'healthapi/staticfiles/rest_framework/css'),
-]
 
 # Media files
 MEDIA_URL = '/media/'
