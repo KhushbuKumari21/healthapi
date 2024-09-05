@@ -48,7 +48,7 @@ ROOT_URLCONF = 'healthapi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'core/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -99,7 +99,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Static files
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 
@@ -109,7 +108,15 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Static files configuration
+STATIC_URL = '/static/'
 
+# Define multiple static files directories
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'healthapi/static'),
+    os.path.join(BASE_DIR, 'healthapi/staticfiles/admin/css'),
+    os.path.join(BASE_DIR, 'healthapi/staticfiles/rest_framework/css'),
+]
 
 # Media files
 MEDIA_URL = '/media/'
