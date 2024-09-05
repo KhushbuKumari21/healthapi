@@ -1,43 +1,93 @@
-<!-- templates/home.html -->
-{% extends 'base.html' %}
-
-{% block extrahead %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health API Home</title>
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom_admin.css' %}">
-{% endblock %}
+    <style>
+        /* Internal CSS specific to home page */
+        .header {
+            background-color: #4CAF50;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
 
-{% block content %}
-<style>
-    /* Internal CSS specific to home page */
-    .header {
-        background-color: #4CAF50;
-        padding: 20px;
-        text-align: center;
-        color: white;
-    }
+        .content {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .content {
-        margin: 20px;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+        .header h1 {
+            font-size: 2.5em;
+        }
 
-    .header h1 {
-        font-size: 2.5em;
-    }
+        .content p {
+            font-size: 1.2em;
+        }
 
-    .content p {
-        font-size: 1.2em;
-    }
-</style>
+        /* Admin section styles */
+        .admin-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-<div class="header">
-    <h1>Welcome to the Health API!</h1>
-</div>
+        .admin-section h2 {
+            color: #333;
+        }
 
-<div class="content">
-    <p>Explore our API to manage and access health-related data efficiently.</p>
-</div>
-{% endblock %}
+        .admin-section .admin-links a {
+            display: block;
+            margin: 10px 0;
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .admin-section .admin-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Health API</h1>
+    </header>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'department-list-create' %}">Departments</a>
+        <a href="{% url 'doctor-list-create' %}">Doctors</a>
+        <a href="{% url 'patient-list-create' %}">Patients</a>
+        <a href="{% url 'patient-record-list-create' %}">Records</a>
+        <a href="{% url 'admin' %}">Admin</a> <!-- Admin link added -->
+    </nav>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to the Health API!</h1>
+        </div>
+
+        <div class="content">
+            <p>Explore our API to manage and access health-related data efficiently.</p>
+        </div>
+
+        <div class="admin-section">
+            <h2>Admin Section</h2>
+            <div class="admin-links">
+                <a href="{% url 'admin-department-list' %}">Manage Departments</a>
+                <a href="{% url 'admin-doctor-list' %}">Manage Doctors</a>
+                <a href="{% url 'admin-patient-list' %}">Manage Patients</a>
+                <a href="{% url 'admin-record-list' %}">Manage Records</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
