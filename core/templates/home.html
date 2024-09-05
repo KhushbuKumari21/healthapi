@@ -1,6 +1,38 @@
+<!-- templates/home.html -->
 {% extends 'base.html' %}
 
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom_admin.css' %}">
+{% endblock %}
+
 {% block content %}
+<style>
+    /* Internal CSS specific to home page */
+    .header {
+        background-color: #4CAF50;
+        padding: 20px;
+        text-align: center;
+        color: white;
+    }
+
+    .content {
+        margin: 20px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+        font-size: 2.5em;
+    }
+
+    .content p {
+        font-size: 1.2em;
+    }
+</style>
+
 <div class="header">
     <h1>Welcome to the Health API!</h1>
 </div>
