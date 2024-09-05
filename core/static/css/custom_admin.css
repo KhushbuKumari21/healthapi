@@ -1,0 +1,53 @@
+/* Custom Admin CSS */
+
+/* Change the background color of the admin header */
+#header {
+    background-color: #4CAF50;
+}
+
+/* Change the font color of the admin header text */
+#header h1 {
+    color: white;
+}
+
+/* Customize the background color of the admin dashboard */
+.dashboard {
+    background-color: #f4f4f4;
+}
+
+/* Style the navigation bar in the admin interface */
+.navbar {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Style the admin model list rows */
+.modeladmin .results tbody tr:nth-child(odd) {
+    background-color: #e8f5e9;
+}
+
+.modeladmin .results tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+/* Style the links in the admin interface */
+a {
+    color: #4CAF50;
+}
+
+/* Change the background color of the buttons */
+button, .btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Customize the form fields in the admin interface */
+.fieldBox {
+    border: 1px solid #d1d1d1;
+    padding: 10px;
+}
+
+/* Adjust the spacing of the form labels and inputs */
+fieldset {
+    margin-bottom: 20px;
+}

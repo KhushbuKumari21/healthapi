@@ -3,6 +3,8 @@ from django.urls import path, include
 from core import views
 from oauth2_provider.views import TokenView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -12,5 +14,7 @@ urlpatterns = [
     path('', views.home, name='home'),   # Route for the home view
 ]
 
-# Add this line to include static files URL patterns
-urlpatterns += staticfiles_urlpatterns()
+# Add static files URL patterns in development
+if settings.DEBUG:
+    urlpatterns += staticfiles_urlpatterns()
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -100,8 +100,16 @@ USE_L10N = True
 USE_TZ = True
 
 # Static files
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+
+# Adding directories for static files within 'core/static' and other apps if necessary
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'core/static'),  # Core static directory (for core app)
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
 
 # Media files
 MEDIA_URL = '/media/'
